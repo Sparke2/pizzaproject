@@ -39,8 +39,6 @@ public class OrderController {
         return orderRepository.findById(id)
                 .map(order -> {
                     order.setStatus(newOrder.getStatus());
-                    order.setPhone(newOrder.getPhone());
-                    order.setAddress(newOrder.getAddress());
                     return orderRepository.save(order);
                 }).orElseThrow(()->new OrderNotFoundException(id));
     }

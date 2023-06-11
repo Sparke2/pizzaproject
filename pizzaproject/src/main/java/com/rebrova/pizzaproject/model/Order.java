@@ -1,50 +1,45 @@
 package com.rebrova.pizzaproject.model;
 
-import com.rebrova.pizzaproject.model.enums.OrderStatus;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private OrderStatus status;
-    private String phone;
-    private String address;
+    private Integer id;
+    @Column(name = "status")
+    private String status;
+    @OneToMany(targetEntity = OrderItem.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "itemId", referencedColumnName = "id")
+    private List<OrderItem> items;
 
     public Order() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public OrderStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public String getPhone() {
-        return phone;
+    public List<OrderItem> getItems() {
+        return items;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }
