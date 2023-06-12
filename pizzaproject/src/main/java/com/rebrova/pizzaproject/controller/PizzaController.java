@@ -1,8 +1,10 @@
 package com.rebrova.pizzaproject.controller;
 
+import com.rebrova.pizzaproject.dtos.PizzaDto;
 import com.rebrova.pizzaproject.model.Pizza;
 import com.rebrova.pizzaproject.exeption.PizzaNotFoundException;
 import com.rebrova.pizzaproject.repository.PizzaRepository;
+import com.rebrova.pizzaproject.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -14,42 +16,43 @@ import java.util.List;
 @CrossOrigin
 public class PizzaController {
     @Autowired
-    private PizzaRepository pizzaService;
+    private PizzaService pizzaService;
 
-    @PostMapping("/add")
-    String add(@RequestBody Pizza pizza) {
-        pizzaService.save(pizza);
-        return "Add pizza";
+    @GetMapping
+    public List<PizzaDto> getAllPizza(){
+        return pizzaService.getAllPizza();
     }
-
-    @GetMapping("/getAll")
-    List<Pizza> getAllPizza() {
-        return pizzaService.findAll();
+    @PostMapping("/createPizza")
+    public PizzaDto createPizza(@RequestBody PizzaDto pizzaDto){
+        System.out.println("create pizza");
+        return pizzaService.createPizza(pizzaDto);
     }
-
-    @GetMapping("{id}")
-    Pizza findById(@PathVariable int id) {
-        return pizzaService.findById(id)
-                .orElseThrow(()-> new PizzaNotFoundException(id));
+    @GetMapping("/findByCategory")
+    public List<PizzaDto> findByCategory(@RequestParam("category") String category)throws PizzaNotFoundException{
+        return pizzaService.findByCategory(category);
     }
-    @PutMapping("{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-    Pizza updatePizza(@RequestBody Pizza newPizza, @PathVariable int id) {
-        return pizzaService.findById(id)
-                .map(pizza -> {
-                    pizza.setName(newPizza.getName());
-                    pizza.setPrice(newPizza.getPrice());
-                    return pizzaService.save(pizza);
-                }).orElseThrow(()->new PizzaNotFoundException(id));
+    @GetMapping("/findByPopularity")
+    public List<PizzaDto> findAllByOrderByPopularityDesc(){
+        return pizzaService.findAllByOrderByPopularityDesc();
     }
-
-    @DeleteMapping("{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-    String delete(@PathVariable int id) {
-        if(!pizzaService.existsById(id)){
-            throw new PizzaNotFoundException(id);
-        }
+    @GetMapping("/{id}")
+    public PizzaDto findById(@PathVariable("id") int id) throws PizzaNotFoundException{
+        return pizzaService.findById(id);
+    }
+    @GetMapping("/findByName")
+    public List<PizzaDto> findByNameContains(@RequestParam("name") String name) throws PizzaNotFoundException{
+        return pizzaService.findByNameContains(name);
+    }
+    @GetMapping("/findByPrice")
+    public List<PizzaDto> findByPrice(@RequestParam("price") Integer price) throws PizzaNotFoundException{
+        return pizzaService.findByPrice(price);
+    }
+    @PutMapping("/{id}")
+    public PizzaDto updatePizzaById(@PathVariable("id") Integer id,@RequestBody PizzaDto pizzaDto) throws PizzaNotFoundException{
+        return pizzaService.updatePizzaById(id, pizzaDto);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") int id)throws PizzaNotFoundException{
         pizzaService.deleteById(id);
-        return "Pizza with id "+id+" has been deleted success";
     }
 }

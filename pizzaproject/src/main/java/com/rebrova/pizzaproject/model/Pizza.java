@@ -1,9 +1,14 @@
 package com.rebrova.pizzaproject.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
-
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "pizza")
 public class Pizza {
@@ -12,53 +17,23 @@ public class Pizza {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "category")
+    private String category;
     @Column(name = "price")
     private Integer price;
     @Column(name = "description")
     private String description;
     @Column(name = "img")
     private String img;
+    @Column(name = "popularity")
+    private Integer popularity;
 
-    public Pizza() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Pizza(String name, String category, Integer price, String description, String img, Integer popularity) {
         this.name = name;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
+        this.category = category;
         this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
         this.img = img;
+        this.popularity = popularity;
     }
 }
