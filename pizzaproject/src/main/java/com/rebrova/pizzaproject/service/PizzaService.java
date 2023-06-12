@@ -1,5 +1,6 @@
 package com.rebrova.pizzaproject.service;
 
+import com.rebrova.pizzaproject.exeption.PizzaNotFoundException;
 import com.rebrova.pizzaproject.model.Pizza;
 
 import java.util.List;
@@ -9,7 +10,11 @@ public interface PizzaService {
     public Pizza savePizza(Pizza pizza);
     public List<Pizza> getAllPizza();
 
-    public Optional<Pizza> findById(int id);
+    public Pizza findById(int id) throws PizzaNotFoundException;
+    List<Pizza> findByNameContains(String name) throws PizzaNotFoundException;
+    List<Pizza> findAllByPriceDesc() throws PizzaNotFoundException;
+    Pizza updatePizzaById(Integer id, Pizza pizza) throws PizzaNotFoundException;
 
     Optional<Pizza> deleteById(int id);
+
 }
