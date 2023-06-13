@@ -16,5 +16,5 @@ public interface PizzaService {
     Pizza toPizza(PizzaDto pizzaDto);
     PizzaDto createPizza(PizzaDto pizzaDto);
     List<PizzaDto> findByCategory(String name) throws PizzaNotFoundException;
-    List<PizzaDto> findAllByOrderByPopularityDesc();
+   List<PizzaDto> findAllByOrderByPopularityDesc();
 }

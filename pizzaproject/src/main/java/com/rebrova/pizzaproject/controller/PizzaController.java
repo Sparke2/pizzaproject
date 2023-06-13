@@ -55,4 +55,5 @@ public class PizzaController {
     public void deleteById(@PathVariable("id") int id)throws PizzaNotFoundException{
         pizzaService.deleteById(id);
     }
+
 }

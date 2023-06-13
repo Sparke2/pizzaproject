@@ -1,8 +1,12 @@
 package com.rebrova.pizzaproject.controller;
 
+import com.rebrova.pizzaproject.dtos.OrderDto;
 import com.rebrova.pizzaproject.exeption.OrderNotFoundException;
 import com.rebrova.pizzaproject.model.Order;
+import com.rebrova.pizzaproject.model.Pizza;
+import com.rebrova.pizzaproject.model.User;
 import com.rebrova.pizzaproject.repository.OrderRepository;
+import com.rebrova.pizzaproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -15,31 +19,35 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @PostMapping("/add")
-    String add(@RequestBody Order order) {
-        orderRepository.save(order);
-        return "Add order";
+    private OrderService orderService;
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable("id") int id) throws OrderNotFoundException{
+        return orderService.getOrderById(id);
+    }
+    @GetMapping
+    public List<OrderDto> getAllOrders(){
+        return orderService.getAllOrders();
+    }
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable("id") int id){
+        orderService.deleteOrder(id);
+    }
+    @GetMapping("/byStatus")
+    public List<OrderDto> findAllByOrderByStatus() throws OrderNotFoundException{
+        return orderService.findAllByOrderByStatus();
+    }
+    @PostMapping
+    public OrderDto createOrder(@RequestBody OrderDto orderDTO){
+        System.out.println("create order");
+        return orderService.createOrder(orderDTO);
+    }
+    @PostMapping("/placeOnOrder")
+    public String placeOnOrder(@RequestBody List<Pizza> list,@RequestBody User user){
+        return orderService.placeOnOrder(list, user);
+    }
+    @PutMapping("/{id}")
+    public OrderDto updateOrderById(@PathVariable("id") Integer id, @RequestBody OrderDto orderDto) throws OrderNotFoundException{
+        return orderService.updateOrderById(id, orderDto);
     }
 
-    @GetMapping("/getAll")
-    List<Order> getAllPizza() {
-        return orderRepository.findAll();
-    }
-
-    @GetMapping("{id}")
-    Order findById(@PathVariable int id) {
-        return orderRepository.findById(id)
-                .orElseThrow(()-> new OrderNotFoundException(id));
-    }
-    @PutMapping("{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-    Order updateOrder(@RequestBody Order newOrder, @PathVariable int id) {
-        return orderRepository.findById(id)
-                .map(order -> {
-                    order.setStatus(newOrder.getStatus());
-                    return orderRepository.save(order);
-                }).orElseThrow(()->new OrderNotFoundException(id));
-    }
 }

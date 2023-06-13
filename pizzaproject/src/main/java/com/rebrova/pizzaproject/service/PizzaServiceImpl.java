@@ -27,7 +27,7 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public List<PizzaDto> findAllByOrderByPopularityDesc() {
-        List<PizzaDto> pizzas = pizzaRepository.findAllByOrderByPopularityDesc().stream().map(this::toDTO).toList();
+        List<PizzaDto> pizzas =  pizzaRepository.findAllByOrderByPopularityDesc().stream().map(this::toDTO).toList();
         return pizzas;
     }
 
@@ -55,7 +55,7 @@ public class PizzaServiceImpl implements PizzaService {
     }
     @Override
     public PizzaDto updatePizzaById(Integer id, PizzaDto pizzaDto) throws PizzaNotFoundException {
-        PizzaDto pizzaDb = findById(id);
+       PizzaDto pizzaDb = findById(id);
         if(Objects.nonNull(pizzaDto.getDescription()) && !"".equalsIgnoreCase(pizzaDto.getDescription())){
             pizzaDb.setDescription(pizzaDto.getDescription());
         }
@@ -92,6 +92,7 @@ public class PizzaServiceImpl implements PizzaService {
                 .popularity(pizza.getPopularity())
                 .build();
     }
+
     @Override
     public Pizza toPizza(PizzaDto pizzaDto) {
         return Pizza.builder()

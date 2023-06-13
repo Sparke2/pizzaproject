@@ -1,10 +1,16 @@
 package com.rebrova.pizzaproject.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
-
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
+
 @Table(name = "appUser")
 public class User {
     @Id
@@ -21,46 +27,10 @@ public class User {
     @JoinColumn(name = "orderId", referencedColumnName = "id")
     private List<Order> orders;
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public User() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String name, String phone, String address, List<Order> orders) {
         this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
         this.address = address;
+        this.orders = orders;
     }
 }
