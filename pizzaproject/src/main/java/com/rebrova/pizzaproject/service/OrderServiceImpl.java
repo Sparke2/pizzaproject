@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class OrderServiceImpl implements OrderService{
                 .id(orderDB.getId())
                 .status(orderDB.getStatus())
                 .items(orderDB.getItems())
+                .userId(orderDB.getUserId())
                 .build();
     }
 
@@ -94,13 +96,17 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public String placeOnOrder(List<Pizza> list, User user) {
+    public String placeOnOrder(Integer id,List<Pizza> list) {
         int totalPrice = 0;
-        List<OrderItem> orderItems = null;
-        List<Integer> listIdPizza = null;
+        List<OrderItem> orderItems = new ArrayList<>();
+        List<Integer> listIdPizza = new ArrayList<>();
         for (Pizza p : list) {
             totalPrice += p.getPrice();
-            if(listIdPizza.contains(p.getId())){
+            if(listIdPizza==null){
+                listIdPizza.add(p.getId());
+                orderItems.add(new OrderItem(1,p.getPrice(),p.getId()));
+            }
+            else if(listIdPizza.contains(p.getId())){
                 for(OrderItem oi: orderItems){
                     if(oi.getPizzaId() == p.getId()){
                         oi.setAmount(oi.getAmount()+1);
@@ -114,7 +120,8 @@ public class OrderServiceImpl implements OrderService{
             }
 
         }
-        OrderDto order = new OrderDto(user.getId(), "Заказ получен", orderItems);
+        OrderDto order = new OrderDto(id, "Заказ получен", orderItems);
+        orderRepository.save(toOrder(order));
         return "Оплата проведена";
     }
 

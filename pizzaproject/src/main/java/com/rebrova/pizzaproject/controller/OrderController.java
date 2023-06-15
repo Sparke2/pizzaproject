@@ -41,9 +41,9 @@ public class OrderController {
         System.out.println("create order");
         return orderService.createOrder(orderDTO);
     }
-    @PostMapping("/placeOnOrder")
-    public String placeOnOrder(@RequestBody List<Pizza> list,@RequestBody User user){
-        return orderService.placeOnOrder(list, user);
+    @PostMapping("/placeOnOrder/{id}")
+    public String placeOnOrder(@PathVariable("id") Integer id, @RequestBody List<Pizza> list){
+        return orderService.placeOnOrder(id,list);
     }
     @PutMapping("/{id}")
     public OrderDto updateOrderById(@PathVariable("id") Integer id, @RequestBody OrderDto orderDto) throws OrderNotFoundException{
