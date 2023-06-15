@@ -20,13 +20,18 @@ public class Order {
     private Integer userId;
     @Column(name = "status")
     private String status;
+    @Column(name = "price")
+    private Integer price;
+
+
     @OneToMany(targetEntity = OrderItem.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "itemId", referencedColumnName = "id")
     private List<OrderItem> items;
 
-    public Order(Integer userId, String status, List<OrderItem> items) {
+    public Order(Integer userId, String status,Integer price, List<OrderItem> items) {
         this.userId = userId;
         this.status = status;
+        this.price = price;
         this.items = items;
     }
 }

@@ -26,7 +26,7 @@ public interface OrderService {
 
     OrderDto createOrder(OrderDto orderDTO);
 
-    public String placeOnOrder(Integer id,List<Pizza> list);
+    public String placeOnOrder(Integer id,List<Integer> list);
 
     OrderDto updateOrderById(Integer id, OrderDto orderDto) throws OrderNotFoundException;
 }

@@ -20,11 +20,13 @@ public class OrderDto {
     private Integer id;
     private Integer userId;
     private String status;
+    private Integer price;
     private List<OrderItem> items;
 
-    public OrderDto(Integer userId, String status, List<OrderItem> items) {
+    public OrderDto(Integer userId, String status,Integer price, List<OrderItem> items) {
         this.userId = userId;
         this.status = status;
+        this.price = price;
         this.items = items;
     }
 }

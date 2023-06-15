@@ -55,5 +55,18 @@ public class PizzaController {
     public void deleteById(@PathVariable("id") int id)throws PizzaNotFoundException{
         pizzaService.deleteById(id);
     }
-
+    @GetMapping("/findByIsBasket")
+    public List<PizzaDto> findByIsBasket() {
+        return pizzaService.findByIsBasket();
+    }
+    @PutMapping("/setIsBasket/{id}")
+    public PizzaDto updateIsBasket(@PathVariable("id") Integer id){
+        PizzaDto p = new PizzaDto(null,null,null,null,null,null,null,1);
+        return pizzaService.updatePizzaById(id, p);
+    }
+    @PutMapping("/deleteFromBasket/{id}")
+    public PizzaDto deleteFromBasket(@PathVariable("id") Integer id){
+        PizzaDto p = new PizzaDto(null,null,null,null,null,null,null,0);
+        return pizzaService.updatePizzaById(id, p);
+    }
 }

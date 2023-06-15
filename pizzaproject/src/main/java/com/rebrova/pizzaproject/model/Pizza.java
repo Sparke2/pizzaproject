@@ -27,13 +27,16 @@ public class Pizza {
     private String img;
     @Column(name = "popularity")
     private Integer popularity;
+    @Column(name = "isBasket")
+    private Integer isBasket;
 
-    public Pizza(String name, String category, Integer price, String description, String img, Integer popularity) {
+    public Pizza(String name, String category, Integer price, String description, String img, Integer popularity,Integer isBasket) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.description = description;
         this.img = img;
         this.popularity = popularity;
+        this.isBasket = isBasket;
     }
 }

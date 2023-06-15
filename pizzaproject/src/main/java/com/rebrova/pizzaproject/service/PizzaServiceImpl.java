@@ -5,6 +5,8 @@ import com.rebrova.pizzaproject.model.Pizza;
 import com.rebrova.pizzaproject.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +31,18 @@ public class PizzaServiceImpl implements PizzaService {
     public List<PizzaDto> findAllByOrderByPopularityDesc() {
         List<PizzaDto> pizzas =  pizzaRepository.findAllByOrderByPopularityDesc().stream().map(this::toDTO).toList();
         return pizzas;
+    }
+
+    @Override
+    public List<PizzaDto> findByIsBasket() {
+        List<PizzaDto> pizzas = pizzaRepository.findByIsBasket(1).stream().map(this::toDTO).toList();
+        List<PizzaDto> pizzasRes = new ArrayList<>();
+        for(PizzaDto p: pizzas){
+            if(p.getIsBasket()!=null){
+                if(p.getIsBasket()==1) pizzasRes.add(p);
+            }
+        }
+        return pizzasRes;
     }
 
     @Override
@@ -71,6 +85,9 @@ public class PizzaServiceImpl implements PizzaService {
         if(Objects.nonNull(pizzaDto.getCategory())&& !"".equalsIgnoreCase(pizzaDto.getCategory())){
             pizzaDb.setCategory(pizzaDto.getCategory());
         }
+        if(Objects.nonNull(pizzaDto.getIsBasket())){
+            pizzaDb.setIsBasket(pizzaDto.getIsBasket());
+        }
         pizzaRepository.save(toPizza(pizzaDb));
         return pizzaDb;
     }
@@ -90,6 +107,7 @@ public class PizzaServiceImpl implements PizzaService {
                 .price(pizza.getPrice())
                 .category(pizza.getCategory())
                 .popularity(pizza.getPopularity())
+                .isBasket(pizza.getIsBasket())
                 .build();
     }
 
@@ -103,6 +121,7 @@ public class PizzaServiceImpl implements PizzaService {
                 .price(pizzaDto.getPrice())
                 .category(pizzaDto.getCategory())
                 .popularity(pizzaDto.getPopularity())
+                .isBasket(pizzaDto.getIsBasket())
                 .build();
     }
 }

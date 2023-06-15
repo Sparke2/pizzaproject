@@ -19,4 +19,5 @@ public class PizzaDto {
     private String img;
     private String category;
     private Integer popularity;
+    private Integer isBasket;
 }

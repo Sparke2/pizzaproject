@@ -8,6 +8,7 @@ import com.rebrova.pizzaproject.model.OrderItem;
 import com.rebrova.pizzaproject.model.Pizza;
 import com.rebrova.pizzaproject.model.User;
 import com.rebrova.pizzaproject.repository.OrderRepository;
+import com.rebrova.pizzaproject.repository.PizzaRepository;
 import com.rebrova.pizzaproject.repository.UserRepository;
 import com.rebrova.pizzaproject.responces.PizzaResponse;
 import jakarta.transaction.Transactional;
@@ -27,6 +28,8 @@ public class OrderServiceImpl implements OrderService{
     private UserServiceImpl userService;
     @Autowired
     private PizzaServiceImpl pizzaService;
+    @Autowired
+    private PizzaRepository pizzaRepository;
 
     @Override
     public OrderDto getOrderById(int id) throws OrderNotFoundException {
@@ -45,6 +48,7 @@ public class OrderServiceImpl implements OrderService{
         return OrderDto.builder()
                 .id(orderDB.getId())
                 .status(orderDB.getStatus())
+                .price(orderDB.getPrice())
                 .items(orderDB.getItems())
                 .userId(orderDB.getUserId())
                 .build();
@@ -56,6 +60,7 @@ public class OrderServiceImpl implements OrderService{
         return Order.builder()
                 .id(orderDTO.getId())
                 .status(orderDTO.getStatus())
+                .price(orderDTO.getPrice())
                 .items(orderDTO.getItems())
                 .userId(orderDTO.getUserId())
                 .build();
@@ -96,11 +101,14 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public String placeOnOrder(Integer id,List<Pizza> list) {
+    public String placeOnOrder(Integer id,List<Integer> list) {
         int totalPrice = 0;
         List<OrderItem> orderItems = new ArrayList<>();
         List<Integer> listIdPizza = new ArrayList<>();
-        for (Pizza p : list) {
+        for (Integer i : list) {
+            PizzaDto p =pizzaService.findById(i);
+            p.setIsBasket(0);
+            pizzaRepository.save(pizzaService.toPizza(p));
             totalPrice += p.getPrice();
             if(listIdPizza==null){
                 listIdPizza.add(p.getId());
@@ -120,7 +128,7 @@ public class OrderServiceImpl implements OrderService{
             }
 
         }
-        OrderDto order = new OrderDto(id, "Заказ получен", orderItems);
+        OrderDto order = new OrderDto(id, "Заказ получен", totalPrice, orderItems);
         orderRepository.save(toOrder(order));
         return "Оплата проведена";
     }

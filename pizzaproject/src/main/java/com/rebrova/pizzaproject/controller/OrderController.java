@@ -42,7 +42,7 @@ public class OrderController {
         return orderService.createOrder(orderDTO);
     }
     @PostMapping("/placeOnOrder/{id}")
-    public String placeOnOrder(@PathVariable("id") Integer id, @RequestBody List<Pizza> list){
+    public String placeOnOrder(@PathVariable("id") Integer id, @RequestBody List<Integer> list){
         return orderService.placeOnOrder(id,list);
     }
     @PutMapping("/{id}")
