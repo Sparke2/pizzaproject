@@ -93,9 +93,6 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-commons:1.11.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:6.0.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:6.0.9" level="project" />
-    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.6.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.31.0" level="project" />
-    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.26" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:3.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:3.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:3.1.0" level="project" />
@@ -125,5 +122,8 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:6.0.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:6.0.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.9.1" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.6.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.31.0" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.26" level="project" />
   </component>
 </module>
